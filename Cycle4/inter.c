@@ -8,7 +8,7 @@ void generate_code_for_operator(char operator){
 	char newexp[10];
 	while(expression[i]!='\0'){
 		if(expression[i]==operator){
-			printf("%c\t%c\t%c\t%c\n", operator, reg, expression[i-1], expression[i+1]);
+			printf("%c\t%c\t%c\t%c\n", operator, reg, newexp[newlen], expression[i+1]);
 			i+=2;
 			newexp[newlen] = reg;
 			reg--;
