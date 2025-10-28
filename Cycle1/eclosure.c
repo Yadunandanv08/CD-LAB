@@ -6,47 +6,45 @@ typedef struct{
 	int to;
 }Transition;
 
-int contains(int state, int list[10], int count){
-	for(int i = 0;i < count; i++)
-		if (list[i]==state)
+Transition transitions[10];
+int closure[10][10], closurecount[10], statecount, transitioncount;
+
+int contains(int state, int closure[], int count){
+	for(int i=0;i<count;i++)
+		if(closure[i]==state)
 			return 1;
 	return 0;
 }
 
-void eclosure(int state, int closure[10], int *count, int transitioncount, Transition transitions[]){
-	if (contains(state, closure, *count)==0){		
-		closure[*count] = state;
-		(*count)++;	
+void eclosure(int state, int curstate){
+	if(!contains(curstate, closure[state], closurecount[state])){
+		closure[state][closurecount[state]++] = curstate;
 	}
- 
-	for(int i = 0;i < transitioncount; i++){
-		if(transitions[i].from == state && transitions[i].sym == 'e'){
-			eclosure(transitions[i].to, closure, count, transitioncount, transitions);
+	for(int i=0;i<transitioncount;i++){
+		if(transitions[i].from == curstate && transitions[i].sym == 'e'){
+			eclosure(state, transitions[i].to);
 		}
 	}
 }
 
 void main(){
-	int statecount, transitioncount, states[10];
-	Transition transitions[10];
-	int closure[10][10];
-    FILE *fp = fopen("test.txt", "r");
-	
 	printf("Enter number of states: ");
 	scanf("%d", &statecount);
-	
-	printf("Enter number of transitions:");
+	printf("Enter number of transitions: ");
 	scanf("%d", &transitioncount);
-	
+
+	FILE *f = fopen("test.txt", "r");
 	for(int i=0;i<transitioncount;i++)
-		fscanf(fp, "%d %c %d", &transitions[i].from, &transitions[i].sym, &transitions[i].to);
-		
+		fscanf(f, "%d %c %d", &transitions[i].from, &transitions[i].sym, &transitions[i].to);
+
+	for(int i=0;i<statecount;i++)
+		closurecount[i] = 0;
+
 	for(int i=0;i<statecount;i++){
-		int count = 0;
-		eclosure(i, closure[i], &count, transitioncount, transitions);
-		printf("Closure of state q%d: ", i);
-		for(int j=0;j<count;j++)
-			printf("q%d\t", closure[i][j]);
-		printf("\n");
-	}
+		eclosure(i, i);
+		printf("E-Closure of state q%d: {", i);
+		for(int j=0;j<closurecount[i];j++)
+			printf("q%d ", closure[i][j]);
+		printf("}\n");
+	}	
 }
