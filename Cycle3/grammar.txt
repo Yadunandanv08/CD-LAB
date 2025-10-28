@@ -1,5 +1,4 @@
-S --> AB
-A --> aA
-A --> e
-B --> bB
-B --> e
+E --> E+E
+E --> E*E
+E --> (E)
+E --> i

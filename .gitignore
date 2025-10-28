@@ -1,0 +1,23 @@
+# Lex and Yacc generated files
+lex.yy.c
+y.tab.c
+y.tab.h
+y.output
+
+# Compiled binaries
+a.out
+*.out
+*.o
+*.exe
+
+# Backup or temporary files
+*.swp
+*.bak
+*.tmp
+*.log
+
+# macOS/Linux hidden files
+.DS_Store
+
+# Build directories
+/build/
